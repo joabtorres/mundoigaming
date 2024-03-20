@@ -35,8 +35,7 @@
                     <?= $this->section("content"); ?>
                 </div>
                 <footer class="text-center text-secondary">
-                    <i class="fa-solid fa-copyright"></i> 2024 - Desenvolvido com <i class="fa-solid fa-heart text-danger"></i> por <a href="https://joabtorres.com.br/" target="_blank" class="text-decoration-none">Joab
-                        Torres</a>
+                    <i class="fa-solid fa-copyright"></i> 2024 - Desenvolvido com <i class="fa-solid fa-heart text-danger"></i>
                 </footer>
             </div>
         </div>

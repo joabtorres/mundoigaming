@@ -35,6 +35,8 @@ class PublicityController extends Controller
         if (!$this->user = Auth::user()) {
             (new Message())->warning("Efetue login para acessar o sistema.")->flash();
             redirect("/login");
+        } else {
+            redirect("/ops/manutencao");
         }
     }
     /**

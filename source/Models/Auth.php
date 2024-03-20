@@ -22,7 +22,7 @@ class Auth extends Model
      */
     public function __construct()
     {
-        parent::__construct("user", ["id"], ["email", "password"]);
+        parent::__construct("users", ["id"], ["email", "password"]);
     }
 
     /**
@@ -50,33 +50,41 @@ class Auth extends Model
 
 
     /**
-     * @param User $user
+     * Undocumented function
      *
-     * @return bool
+     * @return boolean
      */
-    public function register(User $user): bool
+    public function save(): bool
     {
-        if (!$user->save()) {
-            $this->message = $user->message;
+
+        if (!is_email($this->email)) {
+            $this->message->warning("O e-mail informado não tem um formato válido");
             return false;
         }
 
-        $view = new View(__DIR__ . "/../../shared/views/email");
-        $message = $view->render("confirm", [
-            "first_name" => $user->first_name,
-            "confirm_link" => url("/obrigado/" . base64_encode($user->email))
-        ]);
+        if (!is_passwd($this->password)) {
+            $min = CONF_PASSWD_MIN_LEN;
+            $max = CONF_PASSWD_MAX_LEN;
+            $this->message->warning("A senha deve ter entre {$min} e {$max} caracteres");
+            return false;
+        } else {
+            $this->password = passwd($this->password);
+        }
 
-        (new Email())->bootstrap(
-            "Ative sua conta no" . CONF_SITE_NAME,
-            $message,
-            $user->email,
-            "{$user->first_name} {$user->last_name}"
-        )->send();
+        /** User Create */
+        if ((new User())->findByEmail($this->email, "id")) {
+            $this->message->warning("O e-mail informado já está cadastrado");
+            return false;
+        }
 
+        $this->id = $this->create($this->safe());
+        if ($this->fail()) {
+            $this->message->error("Erro ao cadastrar, verifique os dados");
+            return false;
+        }
+        $this->data = ($this->findById($this->id))->data();
         return true;
     }
-
     /**
      * @param string $email
      * @param string $password

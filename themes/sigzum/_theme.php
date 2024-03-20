@@ -140,7 +140,7 @@
             <footer id="col">
                 <hr>
                 <p class="text-right small mb-0 pb-0">
-                    <i class="fa-solid fa-copyright"></i> 2024 - Desenvolvido com <i class="fa-solid fa-heart text-danger"></i> por <a href="https://joabtorres.com.br" target="_blank" class="text-decoration-none text-primary font-bold">Joab Torres</a> <br />
+                    <i class="fa-solid fa-copyright"></i> 2024 - Desenvolvido com <i class="fa-solid fa-heart text-danger"></i> <br />
                     <?= CONF_SITE_NAME ?> - Versão <?= CONF_SITE_VERSION ?>
                 </p>
             </footer>

@@ -79,7 +79,61 @@ class AuthController extends Controller
      */
     public function register(?array $data): void
     {
-        var_dump($data);
+        if (!empty($data["csrf"])) {
+
+            if (empty($data["first_name"])) {
+                $json["message"] = $this->message->error("Informe seu nome")->render();
+                echo json_encode($json);
+                return;
+            }
+            if (empty($data["last_name"])) {
+                $json["message"] = $this->message->error("Informe seu sobrenome")->render();
+                echo json_encode($json);
+                return;
+            }
+            if (empty($data["email"])) {
+                $json["message"] = $this->message->error("Informe seu e-mail")->render();
+                echo json_encode($json);
+                return;
+            }
+            if (empty($data["password"])) {
+                $json["message"] = $this->message->error("Informe a senha")->render();
+                echo json_encode($json);
+                return;
+            }
+            if (empty($data["pix"])) {
+                $json["message"] = $this->message->error("Informe sua chave-pix")->render();
+                echo json_encode($json);
+                return;
+            }
+
+            $auth = new Auth();
+            $auth->first_name = filter_var($data["first_name"], FILTER_SANITIZE_SPECIAL_CHARS);
+            $auth->last_name = filter_var($data["last_name"], FILTER_SANITIZE_SPECIAL_CHARS);
+            $auth->email = filter_var($data["email"], FILTER_SANITIZE_SPECIAL_CHARS);
+            $auth->password = filter_var($data["password"], FILTER_SANITIZE_SPECIAL_CHARS);
+            $auth->pix = filter_var($data["pix"], FILTER_SANITIZE_SPECIAL_CHARS);
+            $auth->sector_id = 6;
+
+            if (!$auth->save()) {
+                $json["message"] = $auth->message()->render();
+                echo json_encode($json);
+                return;
+            }
+            $this->message->success("Cadastro realizado com sucesso!")->flash();
+            $json["redirect"] = url("/login");
+            echo json_encode($json);
+            return;
+        }
+        $head = $this->seo->render(
+            "Novo Registro- " . CONF_SITE_NAME,
+            CONF_SITE_DESC,
+            url("/register"),
+            theme("/assets/images/share.jpg")
+        );
+        echo $this->view->render("auth/auth-register", [
+            "head" => $head
+        ]);
     }
     /**
      * logout function
