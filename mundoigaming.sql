@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 20/03/2024 às 21:50
--- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.2.12
+-- Tempo de geração: 21/03/2024 às 04:43
+-- Versão do servidor: 10.4.28-MariaDB
+-- Versão do PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,22 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `mundoigaming`
 --
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `anexos`
---
-
-CREATE TABLE `anexos` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `publicity_id` int(10) UNSIGNED NOT NULL,
-  `user_id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `url` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -64,25 +48,6 @@ INSERT INTO `companies` (`id`, `full_name`, `cnpj`, `address`, `phone`, `email`,
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `publicities`
---
-
-CREATE TABLE `publicities` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `status_id` int(10) UNSIGNED NOT NULL,
-  `user_id` int(10) UNSIGNED NOT NULL,
-  `company` varchar(255) DEFAULT NULL,
-  `date` date DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `date_start` date DEFAULT NULL,
-  `date_end` date DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Estrutura para tabela `sectors`
 --
 
@@ -100,8 +65,8 @@ CREATE TABLE `sectors` (
 --
 
 INSERT INTO `sectors` (`id`, `name`, `abbreviation`, `company_id`, `created_at`, `updated_at`) VALUES
-(1, 'Suporte Técnico', '', 1, '2024-03-13 18:06:10', '2024-03-15 12:37:54'),
-(6, 'Externo (NÃO APAGAR)', '', 1, '2024-03-20 20:17:31', '2024-03-20 20:35:48');
+(1, 'Grupo de usuários internos da empresa', '', 1, '2024-03-13 18:06:10', '2024-03-21 02:59:18'),
+(6, 'Grupo de usuários externos', '', 1, '2024-03-20 20:17:31', '2024-03-21 02:59:01');
 
 -- --------------------------------------------------------
 
@@ -123,10 +88,26 @@ CREATE TABLE `status` (
 --
 
 INSERT INTO `status` (`id`, `name`, `class_color`, `company_id`, `created_at`, `updated_at`) VALUES
-(1, 'Aguardando', 'bg-primary', 1, '2024-03-13 18:09:01', '2024-03-15 13:26:49'),
-(2, 'Finalizado', 'bg-danger', 1, '2024-03-13 18:09:10', '2024-03-15 14:20:44'),
-(3, 'Publicado', 'bg-success', 1, '2024-03-13 18:09:19', '2024-03-15 13:24:27'),
-(4, 'Cancelado', 'bg-danger', 1, '2024-03-13 18:09:30', '2024-03-15 13:24:32');
+(1, 'Aguardando visualização', 'bg-primary', 1, '2024-03-13 18:09:01', '2024-03-21 03:00:25'),
+(3, 'Aceito', 'bg-success', 1, '2024-03-13 18:09:19', '2024-03-21 02:51:02'),
+(4, 'Recusado', 'bg-danger', 1, '2024-03-13 18:09:30', '2024-03-21 00:46:26'),
+(8, 'Pagamento realizado', 'bg-warning', 1, '2024-03-21 02:52:01', '2024-03-21 02:59:45');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `uploads`
+--
+
+CREATE TABLE `uploads` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `status_id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -154,33 +135,17 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `sector_id`, `first_name`, `last_name`, `email`, `password`, `pix`, `level`, `status`, `avatar`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Joab', 'T. Alencar', 'joabtorres1508@gmail.com', '$2y$10$wCAWmc1dBWeDKdzSjl.2weGoRU6mfI728/YqSE/3pGSWpjGeH9KAy', NULL, 0, 1, NULL, '2024-03-13 18:03:58', '2024-03-13 19:40:05');
+(1, 1, 'Joab', 'T. Alencar', 'joabtorres1508@gmail.com', '$2y$10$wCAWmc1dBWeDKdzSjl.2weGoRU6mfI728/YqSE/3pGSWpjGeH9KAy', NULL, 2, 1, NULL, '2024-03-13 18:03:58', '2024-03-21 02:19:59');
 
 --
 -- Índices para tabelas despejadas
 --
 
 --
--- Índices de tabela `anexos`
---
-ALTER TABLE `anexos`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_docs_anexos_users1_idx` (`user_id`),
-  ADD KEY `fk_anexos_publicities1_idx` (`publicity_id`);
-
---
 -- Índices de tabela `companies`
 --
 ALTER TABLE `companies`
   ADD PRIMARY KEY (`id`);
-
---
--- Índices de tabela `publicities`
---
-ALTER TABLE `publicities`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_docs_users1_idx` (`user_id`),
-  ADD KEY `fk_publicities_status1_idx` (`status_id`);
 
 --
 -- Índices de tabela `sectors`
@@ -197,6 +162,14 @@ ALTER TABLE `status`
   ADD KEY `fk_docs_status_companies1_idx` (`company_id`);
 
 --
+-- Índices de tabela `uploads`
+--
+ALTER TABLE `uploads`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_anexos_status1_idx` (`status_id`),
+  ADD KEY `fk_anexos_users1_idx` (`user_id`);
+
+--
 -- Índices de tabela `users`
 --
 ALTER TABLE `users`
@@ -209,22 +182,10 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT de tabela `anexos`
---
-ALTER TABLE `anexos`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de tabela `companies`
 --
 ALTER TABLE `companies`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT de tabela `publicities`
---
-ALTER TABLE `publicities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de tabela `sectors`
@@ -236,7 +197,13 @@ ALTER TABLE `sectors`
 -- AUTO_INCREMENT de tabela `status`
 --
 ALTER TABLE `status`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de tabela `uploads`
+--
+ALTER TABLE `uploads`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `users`
@@ -247,20 +214,6 @@ ALTER TABLE `users`
 --
 -- Restrições para tabelas despejadas
 --
-
---
--- Restrições para tabelas `anexos`
---
-ALTER TABLE `anexos`
-  ADD CONSTRAINT `fk_anexos_publicities1` FOREIGN KEY (`publicity_id`) REFERENCES `publicities` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_docs_anexos_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Restrições para tabelas `publicities`
---
-ALTER TABLE `publicities`
-  ADD CONSTRAINT `fk_docs_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_publicities_status1` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Restrições para tabelas `sectors`

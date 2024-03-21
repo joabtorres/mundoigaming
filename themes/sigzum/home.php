@@ -20,10 +20,10 @@
         <div class="col-md-4 mb-3">
             <section class="card border-default">
                 <header class="card-header bg-default">
-                    <h4 class="card-title h6 mt-1 mb-1"><i class="fa-solid fa-bullhorn"></i> Campanhas Publicitárias</h4>
+                    <h4 class="card-title h6 mt-1 mb-1"><i class="fa-solid fa-bullhorn"></i> Uploads realizados</h4>
                 </header>
                 <article class="card-body">
-                    <?= count_reg($publicitiesCount) ?>
+                    <?= count_reg($uploadCount) ?>
                 </article>
             </section>
         </div>
@@ -53,35 +53,41 @@
         <div class="col mb-2 mt-2">
             <section class="card border-default">
                 <header class="card-header bg-default">
-                    <h1 class="card-title h6 mb-1 mt-1"><i class="fa-solid fa-bullhorn"></i> Campanhas Publicitárias</h1>
+                    <h1 class="card-title h6 mb-1 mt-1"><i class="fa-solid fa-bullhorn"></i> Uploads aguardando análise</h1>
                 </header>
+                <article class="card-body py-0">
+                    <div class="row">
+                        <div class="col-12 my-2">
+                            <button class="btn btn-sm btn-success pull-right" type="button" data-toggle="modal" data-target="#novo-registro" title="Adicionar"><i class="fas fa-plus-square"></i>
+                                Adicionar</button>
+                        </div>
+                    </div>
+                </article>
                 <div class="table-responsive">
                     <!--table-->
                     <table class="table table-striped table-bordered table-sm table-hover mb-0">
                         <thead class="bg-secondary">
                             <tr class="">
                                 <th scope="col" class="align-middle" width="50px">#</th>
-                                <th scope="col" class="align-middle">Campanha</th>
+                                <th scope="col" class="align-middle">Descrição</th>
                                 <th scope="col" class="align-middle">Data</th>
-                                <th scope="col" class="align-middle">Qtd. dias restantes</th>
                                 <th scope="col" class="align-middle">Status</th>
                                 <th scope="col" class="align-middle" width="60px">Ação</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            if (isset($publicities)) :
+                            if (isset($uploads)) :
                                 $qtd = 1;
-                                foreach ($publicities as $publicity) :
+                                foreach ($uploads as $upload) :
                             ?>
                                     <tr>
                                         <td class="text-center align-middle"><?php echo $qtd ?></td>
-                                        <td class="align-middle"><?= ($publicity->campaign ?? "") ?></td>
-                                        <td class="align-middle"><?= date_fmt($publicity->date, "d/m/Y") ?></td>
-                                        <td class="align-middle"><?= date_from_days($publicity->date) ?></td>
-                                        <td class="align-middle"><span class="p-1 rounded <?= ($publicity->status()->class_color ?? "") ?>"><?= ($publicity->status()->name ?? "") ?></span></td>
+                                        <td class="align-middle"><?= ($upload->description ?? "") ?></td>
+                                        <td class="align-middle"><?= (date_fmt($upload->created_at) ?? "") ?></td>
+                                        <td class="align-middle"><span class="p-1 rounded <?= ($upload->status()->class_color ?? "") ?>"><?= ($upload->status()->name ?? "") ?></span></td>
                                         <td class="align-middle text-center">
-                                            <a class="btn btn-success btn-sm" href="<?= url("publicity/view/{$publicity->id}") ?>" title="Visualizar"><i class="fa fa-eye"></i></a>
+                                            <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal_view_<?= (md5($upload->id) ?? "") ?>" title="Visualizar"><i class="fa fa-eye"></i></button>
                                         </td>
                                     </tr>
                             <?php
@@ -102,9 +108,15 @@
 </div>
 <!-- /#section-container -->
 
+
+<?php $this->insert("upload/register"); ?>
+
+<!-- modal para visualizar -->
 <?php
-$this->start("scripts"); ?>
-<script src="<?= theme("../../shared/js/chart/chart.min.js") ?>"></script>
-<script src="<?= theme("assets/js/charts.js") ?>"></script>
-<?php
-$this->end(); ?>
+if (isset($uploads) && is_array($uploads)) :
+    foreach ($uploads as $upload) :
+        $this->insert("upload/view", ["upload" => $upload]);
+    endforeach;
+endif;
+?>
+<!-- fim modal para visualizar -->

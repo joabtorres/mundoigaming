@@ -41,21 +41,7 @@
                             <a href="<?= url() ?>"><i class="fa fa-tachometer-alt "></i> Página Inicial</a>
                         </li>
                         <li>
-                            <a href="#sidebarDocument" data-toggle="collapse" aria-expanded="false"><i class="fas fa-angle-double-right"></i> Campanha Publicitária </a>
-                            <ul class="collapse list-unstyled" id="sidebarDocument">
-                                <li>
-                                    <a href="<?= url('publicity/register') ?>"><i class="fas fa-plus-square"></i> Novo
-                                        Registro</a>
-                                </li>
-                                <li>
-                                    <a href="<?= url('publicity') ?>"><i class="fas fa-tasks"></i> Campanhas
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="<?= url('publicity/graphic') ?>"><i class="fa-solid fa-chart-column"></i> Gráfico de
-                                        Campanhas</a>
-                                </li>
-                            </ul>
+                            <a href="<?= url('upload') ?>"><i class="fas fa-tasks"></i> Uploads</a>
                         </li>
                         <li>
                             <a href="#sidebarUser" data-toggle="collapse" aria-expanded="false"><i class="fas fa-angle-double-right"></i> Usuários</a>

@@ -33,8 +33,6 @@ class UserController extends Controller
         if (!$this->user = Auth::user()) {
             (new Message())->warning("Efetue login para acessar o sistema.")->flash();
             redirect("/login");
-        } else {
-            redirect("/ops/manutencao");
         }
     }
     /**
@@ -44,6 +42,10 @@ class UserController extends Controller
      */
     public function search(?array $data): void
     {
+        if ($this->user->level < 1) {
+            (new Message())->warning("Você não tem permissão para acessar essa área.")->flash();
+            redirect("/");
+        }
         $data = filter_var_array($data, FILTER_SANITIZE_SPECIAL_CHARS);
         $type = !empty($data["type"]) ? $data["type"] : "type";
         $search = !empty($data["search"]) && !empty($type) ? $data["search"] : "search";
@@ -105,6 +107,10 @@ class UserController extends Controller
      */
     public function register(array $data): void
     {
+        if ($this->user->level < 1) {
+            (new Message())->warning("Você não tem permissão para acessar essa área.")->flash();
+            redirect("/");
+        }
         if (!empty($data["csrf"])) {
             $data = filter_var_array($data, FILTER_SANITIZE_SPECIAL_CHARS);
             if (!empty($data["password"]) && empty($data["rpassword"])) {
@@ -211,6 +217,10 @@ class UserController extends Controller
      */
     public function remove(array $data): void
     {
+        if ($this->user->level < 1) {
+            (new Message())->warning("Você não tem permissão para acessar essa área.")->flash();
+            redirect("/");
+        }
         $user = (new User())->findById(filter_var($data, FILTER_VALIDATE_INT));
         if (!$user) {
             $this->message->warning("Ooops {$this->user->first_name}! Você tentou excluir um registro inexistente do banco de dados.")->flash();

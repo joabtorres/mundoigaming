@@ -1,48 +1,47 @@
 <?php
 
-namespace Source\Models\Publicity;
+namespace Source\Models;
 
 use Source\Core\Model;
-use Source\Models\Publicity;
 use Source\Models\User;
 
 /**
- * class Anexo
+ * class Upload
  *
  * @package Source\Model\Publicity
  * @author  Joab T. Alencar <contato@joabtorres.com.br>
  * @version 1.0
  */
-class Anexo extends Model
+class Upload extends Model
 {
     /**
-     * Anexo constructor.
+     * Upload constructor.
      */
     public function __construct()
     {
         parent::__construct(
-            "publicities_anexos",
+            "uploads",
             ["id"],
-            ["publicity_id", "user_id", "description", "url"]
+            ["status_id", "user_id", "description", "url"]
         );
     }
 
     /**
      * bootstrap function
      *
-     * @param integer $publicity_id
+     * @param integer $status_id
      * @param integer $user_id
      * @param string $description
      * @param array|null $url
-     * @return Anexo
+     * @return Upload
      */
     public function bootstrap(
-        int $publicity_id,
+        int $status_id,
         int $user_id,
         string $description,
         array $url = null
-    ): Anexo {
-        $this->publicity_id = $publicity_id;
+    ): Upload {
+        $this->status_id = $status_id;
         $this->user_id = $user_id;
         $this->description = $description;
         $this->url = $url;
@@ -58,24 +57,13 @@ class Anexo extends Model
     {
         return (new User())->findById($this->user_id);
     }
-
     /**
-     * publicity function
+     * status function
      *
-     * @return Publicity
+     * @return Status
      */
-    public function publicity(): Publicity
+    public function status(): Status
     {
-        return (new Publicity())->findById($this->publicity_id);
-    }
-    /**
-     * save function
-     *
-     * @return boolean
-     */
-    public function save(): bool
-    {
-
-        return parent::save();
+        return (new Status)->findById($this->status_id);
     }
 }

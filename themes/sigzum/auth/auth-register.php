@@ -39,7 +39,7 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text bg-primary text-white border-primary pe-4 ps-4"></div>
                     </div>
-                    <input type="text" name="password" id="ipassword" class="form-control border-primary" placeholder="Informe a senha" aria-label="Informe a senha" required>
+                    <input type="password" name="password" id="ipassword" class="form-control border-primary" placeholder="Informe a senha" aria-label="Informe a senha" required>
                 </div>
             </div>
             <div class="col-12 mb-2">

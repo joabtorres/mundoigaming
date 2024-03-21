@@ -114,6 +114,7 @@ class AuthController extends Controller
             $auth->password = filter_var($data["password"], FILTER_SANITIZE_SPECIAL_CHARS);
             $auth->pix = filter_var($data["pix"], FILTER_SANITIZE_SPECIAL_CHARS);
             $auth->sector_id = 6;
+            $auth->status = 1;
 
             if (!$auth->save()) {
                 $json["message"] = $auth->message()->render();

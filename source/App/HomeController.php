@@ -5,8 +5,8 @@ namespace Source\App;
 use Source\Core\Connect;
 use Source\Core\Controller;
 use Source\Models\Auth;
-use Source\Models\Publicity;
 use Source\Models\Status;
+use Source\Models\Upload;
 use Source\Models\User;
 use Source\Support\Message;
 
@@ -32,8 +32,6 @@ class HomeController extends Controller
         if (!$this->user = Auth::user()) {
             (new Message())->warning("Efetue login para acessar o sistema.")->flash();
             redirect("/login");
-        } else {
-            redirect("/ops/manutencao");
         }
     }
     /**
@@ -48,12 +46,16 @@ class HomeController extends Controller
             url(),
             theme("/assets/images/share.jpg")
         );
+
+        $query = ($this->user->level > 1)  ? "id >= :id" : "user_id=:user";
+
+        $param = ($this->user->level > 1)  ? "id=1" : "user={$this->user->id}";
         echo $this->view->render("home", [
             "head" => $head,
             "usersCount" => (new User())->find()->count(),
-            "publicitiesCount" => (new Publicity())->find()->count(),
-            "statusCount" => (new Status())->find()->count(),
-            "publicities" => (new Publicity())->find("date > :date", "date=" . date_fmt("now", "Y-m-d"))->order("date ASC")->fetch(true)
+            "statusCount" => (new Status($query, $param))->find()->count(),
+            "uploadCount" => (new Upload())->find()->count(),
+            "uploads" => (new Upload())->find("status_id=:status AND {$query}", "status=1&{$param}")->fetch(true)
         ]);
     }
 }

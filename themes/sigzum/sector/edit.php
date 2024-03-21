@@ -4,7 +4,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col" id="pagina-header">
-            <h5>Setor: <?= ($sector->name ?? "") ?></h5>
+            <h5><?= ($sector->name ?? "") ?></h5>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?= url() ?>"><i class="fa fa-tachometer-alt"></i> Inicial</a>

@@ -83,23 +83,15 @@ $route->post("/update/{id}", "UserController@update");
 $route->get("/remove/{id}", "UserController@remove");
 
 /**
- * PUBLICITY ROUTES
+ * UPLOADS ROUTES
  */
-$route->group("/publicity");
-$route->get("", "PublicityController@search");
-$route->post("", "PublicityController@search");
-$route->get("/{status}/{type}/{search}/{date_start}/{date_final}/{order}/{page}", "PublicityController@search");
-$route->get("/register", "PublicityController@register");
-$route->get("/view/{id}", "PublicityController@view");
-$route->post("/register", "PublicityController@register");
-$route->get("/update/{id}", "PublicityController@update");
-$route->post("/update/{id}", "PublicityController@update");
-$route->get("/remove/{id}", "PublicityController@remove");
-$route->get("/graphic", "PublicityController@graphic");
-
-
-$route->post("/anexo/register", "PublicityController@registerAnexo");
-$route->get("/anexo/remove/{id}", "PublicityController@removeAnexo");
+$route->group("/upload");
+$route->get("", "UploadController@search");
+$route->post("", "UploadController@search");
+$route->get("/{status}/{type}/{search}/{date_start}/{date_final}/{order}/{page}", "UploadController@search");
+$route->post("/register", "UploadController@register");
+$route->get("/update/{id}/{status}", "UploadController@update");
+$route->get("/remove/{id}", "UploadController@remove");
 
 /**
  * ERROR ROUTES [400, 404,405, 501]
