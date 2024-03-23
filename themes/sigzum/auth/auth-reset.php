@@ -1,5 +1,8 @@
 <?php $this->layout("auth/_theme", ["head" => $head]); ?>
 
+<div class="d-md-none">
+    <img src="<?= theme("assets/image/logo-login-white.png") ?>" class="mx-auto d-block img-fluid mt-2 mb-3">
+</div>
 <section class="offset-lg-1 offset-md-2 col-lg-10 me-auto">
     <h5 class="text-white"><strong>Criar nova senha</strong></h5>
     <p class="text-white">Informe e repita uma nova senha para recuperar o acesso.</p>

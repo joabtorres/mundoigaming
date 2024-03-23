@@ -59,41 +59,109 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-row">
-                                    <div class="col-md-12 mb-3">
-                                        <label for='icompany'>Setor: *</label><br />
-                                        <select class="custom-select select2-js" name="sector_id" id="icompany" required>
-                                            <?php if (!empty($sectors)) : ?>
-                                                <?php foreach ($sectors as $sector) : ?>
-                                                    <?php if ($user->sector_id == $sector->id) : ?>
-                                                        <option value="<?= ($sector->id ?? "") ?>" selected="selected"><?= ($sector->name ?? "") ?></option>
+                                    <?php
+                                    if (user()->level > 1) : ?>
+                                        <div class="col-md-12 mb-3">
+                                            <label for='icompany'>Setor: *</label><br />
+                                            <select class="custom-select select2-js" name="sector_id" id="icompany" required>
+                                                <?php if (!empty($sectors)) : ?>
+                                                    <?php foreach ($sectors as $sector) : ?>
+                                                        <?php if ($user->sector_id == $sector->id) : ?>
+                                                            <option value="<?= ($sector->id ?? "") ?>" selected="selected"><?= ($sector->name ?? "") ?></option>
+                                                        <?php else : ?>
+                                                            <option value="<?= ($sector->id ?? "") ?>"><?= ($sector->name ?? "") ?></option>
+                                                        <?php endif; ?>
+                                                    <?php endforeach; ?>
+                                                <?php endif; ?>
+                                            </select>
+                                            <div class="invalid-feedback">Informe o setor</div>
+                                        </div>
+
+                                        <div class="col-md-12 mb-3">
+                                            <label for="ilevel">Nivel de acesso:</label> <br>
+                                            <select class="custom-select select2-js" name="level" id="ilevel">
+                                                <?php
+                                                $levels = list_user_level();
+                                                if (!empty($levels)) : ?>
+                                                    <?php foreach ($levels as $item) : ?>
+                                                        <?php if ($user->level == $item["value"]) : ?>s
+                                                        <option value="<?= ($item["value"] ?? "") ?>" selected><?= ($item["label"] ?? "") ?></option>
                                                     <?php else : ?>
-                                                        <option value="<?= ($sector->id ?? "") ?>"><?= ($sector->name ?? "") ?></option>
+                                                        <option value="<?= ($item["value"] ?? "") ?>"><?= ($item["label"] ?? "") ?></option>
                                                     <?php endif; ?>
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
-                                        </select>
-                                        <div class="invalid-feedback">Informe o setor</div>
-                                    </div>
+                                            </select>
+                                            <div class="invalid-feedback">Informe o nível de acesso</div>
+                                        </div>
 
-                                    <div class="col-md-12 mb-3">
-                                        <label for="iStatus">Acesso:</label> <br>
-                                        <select class="custom-select select2-js" name="status" id="iStatus">
-                                            <?php
-                                            $access = [
-                                                ['value' => 1, "label" => "Acesso permitido"],
-                                                ["value" => 0, "label" => "Acesso revogado"]
-                                            ];
-                                            if (!empty($access)) : ?>
-                                                <?php foreach ($access as $item) : ?>
-                                                    <?php if ($user->status == $item["status"]) : ?>s
-                                                    <option value="<?= ($item["value"] ?? "") ?>"><?= ($item["label"] ?? "") ?></option>
-                                                <?php else : ?>
-                                                    <option value="<?= ($item["value"] ?? "") ?>"><?= ($item["label"] ?? "") ?></option>
+                                        <div class="col-md-12 mb-3">
+                                            <label for="iStatus">Status da conta: </label> <br>
+                                            <select class="custom-select select2-js" name="status" id="iStatus">
+                                                <?php
+                                                $access = [
+                                                    ['value' => 1, "label" => "Acesso permitido"],
+                                                    ["value" => 0, "label" => "Acesso revogado"]
+                                                ];
+                                                if (!empty($access)) : ?>
+                                                    <?php foreach ($access as $item) : ?>
+                                                        <?php if ($user->status == $item["value"]) : ?>s
+                                                        <option value="<?= ($item["value"] ?? "") ?>" selected><?= ($item["label"] ?? "") ?></option>
+                                                    <?php else : ?>
+                                                        <option value="<?= ($item["value"] ?? "") ?>"><?= ($item["label"] ?? "") ?></option>
+                                                    <?php endif; ?>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                            </select>
+                                        </div>
+
+                                    <?php else : ?>
+                                        <div class="col-md-12 mb-3">
+                                            <label for='icompany'>Setor:</label><br />
+                                            <select class="custom-select select2-js" disabled>
+                                                <?php if (!empty($sectors)) : ?>
+                                                    <?php foreach ($sectors as $sector) : ?>
+                                                        <?php if ($user->sector_id == $sector->id) : ?>
+                                                            <option value="<?= ($sector->id ?? "") ?>" selected="selected"><?= ($sector->name ?? "") ?></option>
+                                                        <?php endif; ?>
+                                                    <?php endforeach; ?>
                                                 <?php endif; ?>
-                                            <?php endforeach; ?>
-                                        <?php endif; ?>
-                                        </select>
-                                    </div>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <label for="ilevel">Nivel de acesso:</label> <br>
+                                            <select class="custom-select select2-js" disabled>
+                                                <?php
+                                                $levels = list_user_level();
+                                                if (!empty($levels)) : ?>
+                                                    <?php foreach ($levels as $item) : ?>
+                                                        <?php if ($user->level == $item["value"]) : ?>s
+                                                        <option value="<?= ($item["value"] ?? "") ?>"><?= ($item["label"] ?? "") ?></option>
+                                                    <?php endif; ?>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                            </select>
+                                            <div class="invalid-feedback">Informe o nível de acesso</div>
+                                        </div>
+
+                                        <div class="col-md-12 mb-3">
+                                            <label for="iStatus">Status da conta: </label> <br>
+                                            <select class="custom-select select2-js" disabled>
+                                                <?php
+                                                $access = [
+                                                    ['value' => 1, "label" => "Acesso permitido"],
+                                                    ["value" => 0, "label" => "Acesso revogado"]
+                                                ];
+                                                if (!empty($access)) : ?>
+                                                    <?php foreach ($access as $item) : ?>
+                                                        <?php if ($user->status == $item["value"]) : ?>s
+                                                        <option value="<?= ($item["value"] ?? "") ?>"><?= ($item["label"] ?? "") ?></option>
+                                                    <?php endif; ?>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                            </select>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
 

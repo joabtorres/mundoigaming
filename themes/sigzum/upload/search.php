@@ -135,8 +135,9 @@
                                         <td class="align-middle"><span class="p-1 rounded <?= ($upload->status()->class_color ?? "") ?>"><?= ($upload->status()->name ?? "") ?></span></td>
                                         <td class="align-middle table-acao text-center">
                                             <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal_view_<?= (md5($upload->id) ?? "") ?>" title="Visualizar"><i class="fa fa-eye"></i></button>
-                                            <a class="btn btn-primary btn-sm" href="<?= url("sector/update/{$upload->id}") ?>" title="Editar"><i class="fa fa-pencil-alt"></i></a>
-                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal_remove_<?= (md5($upload->id) ?? "") ?>" title="Excluir"><i class="fa fa-trash"></i></button>
+                                            <?php if (user()->level > 1  || $upload->status == 1) : ?>
+                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal_remove_<?= (md5($upload->id) ?? "") ?>" title="Excluir"><i class="fa fa-trash"></i></button>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                             <?php
@@ -172,7 +173,9 @@
     <?php
     if (isset($uploads) && is_array($uploads)) :
         foreach ($uploads as $upload) :
-            $this->insert("upload/remove", ["upload" => $upload]);
+            if (user()->level > 1  || $upload->status == 1) :
+                $this->insert("upload/remove", ["upload" => $upload]);
+            endif;
         endforeach;
     endif;
     ?>

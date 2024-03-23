@@ -1,5 +1,8 @@
 <?php $this->layout("auth/_theme", ["head" => $head]); ?>
 
+<div class="d-md-none">
+    <img src="<?= theme("assets/image/logo-login-white.png") ?>" class="mx-auto d-block img-fluid mt-2 mb-3">
+</div>
 <section class="offset-lg-1 offset-md-2 col-lg-10 me-auto">
     <p class="m-0 text-end text-secondary mt-1 mb-1">Ainda não tem conta? <a title="Cadastre-se" href="<?= url("/register") ?>" class="text-white text-decoration-none bg-primary p-1 rounded">Cadastre-se!</a></p>
     <h5 class="text-white"><strong>Fazer Login</strong></h5>

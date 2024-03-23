@@ -6,6 +6,8 @@
  * ####################
  */
 
+use Source\Support\Message;
+
 /**
  * Função para verificar se é um email válido
  *
@@ -259,6 +261,41 @@ function user()
 {
     return \Source\Models\Auth::user();
 }
+/**
+ * message function Instancia da classe Message
+ *
+ * @return \Source\Models\Message
+ */
+function message(): Message
+{
+    return new \Source\Support\Message();;
+}
+
+/**
+ * list_user_level function lista de acesso ao sistema
+ *
+ * @return array $levels lista dos níveis de acesso
+ */
+function list_user_level(): array
+{
+    return $levels = [
+        ["value" => 1, "label" => "Básico"],
+        ["value" => 2, "label" => "Administrador"]
+    ];
+}
+/**
+ * user_level function
+ *
+ * @param integer $require
+ * @return void
+ */
+function user_level(int $require): void
+{
+    if (user()->level < $require) {
+        message()->warning("Oops, " . user()->first_name . "! Parece que você não possui o nível de acesso necessário para realizar essa ação.")->flash();
+        redirect("/");
+    }
+}
 
 /**
  * @param string|null $path
@@ -297,11 +334,11 @@ function image(string $image, int $width, int $height = null): string
     );
 }
 /**
- * backgroundColorOptions function retorna array com lista de opcoes de background para labels, muito utilizado em status
+ * bgcolor_options function retorna array com lista de opcoes de background para labels, muito utilizado em status
  *
- * @return array
+ * @return array $options
  */
-function backgroundColorOptions(): array
+function bgcolor_options(): array
 {
     return $options = [
         ['value' => 'bg-primary', 'label' => 'Azul'],
@@ -319,7 +356,7 @@ function backgroundColorOptions(): array
  * count_reg function 
  *
  * @param integer $count
- * @return string '$count registros encontrados / registro encontrado" 
+ * @return string $count  x registros encontrados | 1 registro encontrado"  | nenhum registro encontrado
  */
 function count_reg(int $count): string
 {
@@ -328,7 +365,7 @@ function count_reg(int $count): string
     } else if ($count == 1) {
         return "{$count} registro encontrado";
     }
-    return "0 registro encontrado";
+    return "nenhum registro encontrado";
 }
 /**
  * ################
@@ -337,10 +374,10 @@ function count_reg(int $count): string
  */
 
 /**
- * Função string que retorna data em  d/m/Y H\hi
+ * date_fmt function 
  *
  * @param string $date
- * @param string $format
+ * @param string $format string que retorna data em  d/m/Y H\hi
  *
  * @return string
  */
@@ -350,11 +387,11 @@ function date_fmt(string $date = "now", string $format = "d/m/Y H:i\h"): string
 }
 
 /**
- * Função string que retorna data em d/m/Y H:i:s
+ * date_fmt_br function 
  *
  * @param string $date
  *
- * @return string
+ * @return string string que retorna data em d/m/Y H:i:s
  */
 function date_fmt_br(string $date = "now"): string
 {
@@ -396,11 +433,11 @@ function date_from_days(string $date = "now", string $dateDif = "now"): string
  */
 
 /**
- * Função para gerar uma hash de senha
+ * passwd function transforma a senha informada pelo usuário em um hash
  *
  * @param string $password
  *
- * @return string
+ * @return string hash de senha
  */
 function passwd(string $password): string
 {
@@ -411,7 +448,7 @@ function passwd(string $password): string
 }
 
 /**
- * Função para verificar se senha e igual ao hash
+ * passwd_verify function verifica se senha e igual ao hash
  *
  * @param string $password
  * @param string $hash
@@ -425,7 +462,7 @@ function passwd_verify(string $password, string $hash): bool
 
 /**
  *
- * Função para verificar se precisa atualizar o hash da senha
+ * passwd_rehash function verifica se precisa atualizar o hash da senha
  *
  * @param string $hash
  *
@@ -443,7 +480,9 @@ function passwd_rehash(string $hash): bool
  */
 
 /**
- * @return string
+ * csrf_input function
+ *
+ * @return string retorna um input com token de validação do formulário
  */
 function csrf_input(): string
 {
@@ -453,7 +492,29 @@ function csrf_input(): string
         "") . "'/>";
 }
 
+
 /**
+ * csrf_verify function verifica se csrf foi gerado pela aplicação
+ *
+ * @param string $csrf
+ * @return boolean true|false
+ */
+function csrf_verify(string $csrf): bool
+{
+    $session = new \Source\Core\Session();
+    if (
+        empty($session->csrf_token) || empty($csrf)
+        || $csrf != $session->csrf_token
+    ) {
+        return false;
+    }
+    return true;
+}
+
+
+/**
+ * flash function retorna a ultima messagem da classe Message salvo em sessão
+ *
  * @return string|null
  */
 function flash(): ?string
@@ -463,21 +524,4 @@ function flash(): ?string
         echo $flash;
     }
     return null;
-}
-
-/**
- * @param $request
- *
- * @return bool
- */
-function csrf_verify($request): bool
-{
-    $session = new \Source\Core\Session();
-    if (
-        empty($session->csrf_token) || empty($request['csrf'])
-        || $request['csrf'] != $session->csrf_token
-    ) {
-        return false;
-    }
-    return true;
 }

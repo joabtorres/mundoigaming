@@ -3,7 +3,7 @@
         'name' => 'joabtorres/sigzum',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '2c73d1bdf94c3f1860f86fbc8b61cc30c1054e1d',
+        'reference' => 'c3ffd80224195c2d35de29b70a0d31ccc70cdeef',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -58,7 +58,7 @@
         'joabtorres/sigzum' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '2c73d1bdf94c3f1860f86fbc8b61cc30c1054e1d',
+            'reference' => 'c3ffd80224195c2d35de29b70a0d31ccc70cdeef',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

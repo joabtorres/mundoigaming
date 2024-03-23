@@ -2,7 +2,6 @@
 
 namespace Source\Models;
 
-use mysql_xdevapi\Warning;
 use Source\Core\Model;
 use Source\Core\Session;
 use Source\Core\View;
@@ -31,10 +30,10 @@ class Auth extends Model
     public static function user(): ?User
     {
         $session = new Session();
-        if (!$session->has("authUser")) {
+        if (!$session->has("authUserWorld")) {
             return null;
         }
-        return (new User())->findById($session->authUser);
+        return (new User())->find("status=1 && id=:id", "id={$session->authUserWorld}")->fetch();
     }
 
     /**
@@ -45,7 +44,7 @@ class Auth extends Model
     public static function logout(): void
     {
         $session = new Session();
-        $session->unset("authUser");
+        $session->unset("authUserWorld");
     }
 
 
@@ -133,7 +132,7 @@ class Auth extends Model
         }
 
         //LOGIN
-        (new Session())->set("authUser", $user->id);
+        (new Session())->set("authUserWorld", $user->id);
         $this->message->success("Login efetuado com sucesso")->flash();
         return true;
     }
@@ -161,15 +160,19 @@ class Auth extends Model
         $view = new View(__DIR__ . "/../../shared/views/email");
         $message = $view->render("forget", [
             "first_name" => $user->first_name,
-            "forget_link" => url("/recuperar/{$user->email}|{$user->forget}")
+            "forget_link" => url("/forget/{$user->email}|{$user->forget}")
         ]);
 
-        (new Email())->bootstrap(
+        $email = (new Email())->bootstrap(
             "Recupe sua senha no " . CONF_SITE_NAME,
             $message,
             $user->email,
             "{$user->first_name} {$user->last_name}"
-        )->send();
+        );
+        if (!$email->send()) {
+            $this->message = $email->message();
+            return false;
+        }
         return true;
     }
 

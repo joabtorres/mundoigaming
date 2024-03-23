@@ -107,10 +107,7 @@ class UserController extends Controller
      */
     public function register(array $data): void
     {
-        if ($this->user->level < 1) {
-            (new Message())->warning("Você não tem permissão para acessar essa área.")->flash();
-            redirect("/");
-        }
+        user_level(2);
         if (!empty($data["csrf"])) {
             $data = filter_var_array($data, FILTER_SANITIZE_SPECIAL_CHARS);
             if (!empty($data["password"]) && empty($data["rpassword"])) {
@@ -130,7 +127,8 @@ class UserController extends Controller
                 $data["email"],
                 $data["password"],
                 $data["sector_id"],
-                $data["status"]
+                !empty($data["status"]) ? filter_var($data["status"], FILTER_VALIDATE_INT) : 0,
+                !empty($data["level"]) ? filter_var($data["level"], FILTER_VALIDATE_INT) : 1
             );
             if (!$user->save()) {
                 $json["message"] = $user->message()->render();
@@ -163,6 +161,10 @@ class UserController extends Controller
      */
     public function update(array $data): void
     {
+        $data["id"] = filter_var($data["id"], FILTER_VALIDATE_INT);
+        if ($data["id"] != $this->user->id || $this->user->level >= 2) {
+            user_level(2);
+        }
         if (!empty($data["csrf"])) {
             $data = filter_var_array($data, FILTER_SANITIZE_SPECIAL_CHARS);
             if (!empty($data["password"]) && empty($data["rpassword"])) {
@@ -177,19 +179,27 @@ class UserController extends Controller
             }
 
             $user = (new User())->findById(filter_var($data["id"], FILTER_VALIDATE_INT));
-            $user->sector_id = $data["sector_id"];
             $user->first_name = $data["first_name"];
             $user->last_name = $data["last_name"];
             $user->email = $data["email"];
             $user->password = !empty($data["password"]) ? $data["password"] : $user->password;
-            $user->status = $data["status"];
+
+            if (isset($data["sector_id"])) {
+                $user->sector_id = $data["sector_id"];
+            }
+            if (isset($data["status"])) {
+                $user->status =  !empty($data["status"]) ? filter_var($data["status"], FILTER_VALIDATE_INT) : 0;
+            }
+            if (isset($data["level"])) {
+                $user->level = !empty($data["level"]) ? filter_var($data["level"], FILTER_VALIDATE_INT) : 1;
+            }
 
             if (!$user->save()) {
                 $json["message"] = $user->message()->render();
                 echo json_encode($json);
                 return;
             }
-            $this->message->success("Alteração realizada com sucesso!")->flash();
+            $this->message->success("Alteração realizada com sucesso!")->render();
             $json["redirect"] = url("user/update/{$user->id}");
             echo json_encode($json);
             return;
@@ -217,11 +227,8 @@ class UserController extends Controller
      */
     public function remove(array $data): void
     {
-        if ($this->user->level < 1) {
-            (new Message())->warning("Você não tem permissão para acessar essa área.")->flash();
-            redirect("/");
-        }
-        $user = (new User())->findById(filter_var($data, FILTER_VALIDATE_INT));
+        user_level(2);
+        $user = (new User())->findById(filter_var($data["id"], FILTER_VALIDATE_INT));
         if (!$user) {
             $this->message->warning("Ooops {$this->user->first_name}! Você tentou excluir um registro inexistente do banco de dados.")->flash();
         } else {

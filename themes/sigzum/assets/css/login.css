@@ -25,3 +25,9 @@ body,
     flex-direction: column;
     justify-content: space-between;
 }
+@media (max-width: 600px) {
+    #content-logo {
+      display: none;
+    }
+  }
+  

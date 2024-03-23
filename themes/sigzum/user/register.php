@@ -61,6 +61,7 @@
                                     <div class="col-md-12 mb-3">
                                         <label for='icompany'>Setor: *</label><br />
                                         <select class="custom-select select2-js" name="sector_id" id="icompany" required>
+                                            <option value="" disabled selected>Selecione</option>
                                             <?php if (!empty($sectors)) : ?>
                                                 <?php foreach ($sectors as $sector) : ?>
                                                     <option value="<?= ($sector->id ?? "") ?>"><?= ($sector->name ?? "") ?></option>
@@ -69,22 +70,42 @@
                                         </select>
                                         <div class="invalid-feedback">Informe o setor</div>
                                     </div>
+                                    <?php
+                                    if (user()->level > 1) : ?>
+                                        <div class="col-md-12 mb-3">
+                                            <label for="ilevel">Nivel de acesso:</label> <br>
+                                            <select class="custom-select select2-js" name="level" id="ilevel">
+                                                <option value="" disabled selected>Selecione</option>
+                                                <?php
+                                                $levels = list_user_level();
+                                                if (!empty($levels)) : ?>
+                                                    <?php foreach ($levels as $item) : ?>
+                                                        <option value="<?= ($item["value"] ?? "") ?>"><?= ($item["label"] ?? "") ?></option>
+                                                    <?php endforeach; ?>
+                                                <?php endif; ?>
+                                            </select>
+                                            <div class="invalid-feedback">Informe o nível de acesso</div>
+                                        </div>
 
-                                    <div class="col-md-12 mb-3">
-                                        <label for="iStatus">Acesso:</label> <br>
-                                        <select class="custom-select select2-js" name="status" id="iStatus">
-                                            <?php
-                                            $access = [
-                                                ['value' => 1, "label" => "Acesso permitido"],
-                                                ["value" => 0, "label" => "Acesso revogado"]
-                                            ];
-                                            if (!empty($access)) : ?>
-                                                <?php foreach ($access as $item) : ?>
-                                                    <option value="<?= ($item["value"] ?? "") ?>"><?= ($item["label"] ?? "") ?></option>
-                                                <?php endforeach; ?>
-                                            <?php endif; ?>
-                                        </select>
-                                    </div>
+                                        <div class="col-md-12 mb-3">
+                                            <label for="iStatus">Status da conta: </label> <br>
+                                            <select class="custom-select select2-js" name="status" id="iStatus">
+                                                <option value="" disabled selected>Selecione</option>
+                                                <?php
+                                                $access = [
+                                                    ['value' => 1, "label" => "Acesso permitido"],
+                                                    ["value" => 0, "label" => "Acesso revogado"]
+                                                ];
+                                                if (!empty($access)) : ?>
+                                                    <?php foreach ($access as $item) : ?>
+                                                        <option value="<?= ($item["value"] ?? "") ?>"><?= ($item["label"] ?? "") ?></option>
+                                                    <?php endforeach; ?>
+                                                <?php endif; ?>
+                                            </select>
+                                        </div>
+
+                                    <?php endif; ?>
+
                                 </div>
                             </div>
 

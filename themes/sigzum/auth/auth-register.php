@@ -1,5 +1,8 @@
 <?php $this->layout("auth/_theme", ["head" => $head]); ?>
 
+<div class="d-md-none">
+    <img src="<?= theme("assets/image/logo-login-white.png") ?>" class="mx-auto d-block img-fluid mt-2 mb-3">
+</div>
 <section class="offset-lg-1 offset-md-2 col-lg-10 me-auto">
     <h5 class="text-white mb-0"><strong>Cadastre-se</strong></h5>
     <div class="mb-3 text-end text-secondary mt-1 mb-1">Voltar para página de login?<a href="<?= url("/login") ?>" class="text-white text-decoration-none"> Clique aqui</a></div>

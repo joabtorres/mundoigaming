@@ -31,6 +31,7 @@ class User extends Model
      * @param string      $email
      * @param string      $password
      * @param int         $status
+     * @param int         $level
      * @param string|null $document
      *
      * @return User
@@ -42,6 +43,7 @@ class User extends Model
         string $password,
         int $sectorId,
         int $status,
+        int $level,
         string $avatar = null,
     ): User {
         $this->first_name = $firstName;
@@ -51,6 +53,7 @@ class User extends Model
         $this->avatar = $avatar;
         $this->sector_id = $sectorId;
         $this->status = $status;
+        $this->level = $level;
         return $this;
     }
 

@@ -32,11 +32,10 @@ class StatusController extends Controller
         if (!$this->user = Auth::user()) {
             (new Message())->warning("Efetue login para acessar o sistema.")->flash();
             redirect("/login");
-        } else if ($this->user->level < 1) {
-            (new Message())->warning("Você não tem permissão para acessar essa área.")->flash();
-            redirect("/");
         }
+        user_level(2);
     }
+
     /**
      * search function
      *

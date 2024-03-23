@@ -24,12 +24,12 @@
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-7 bg-light d-flex align-items-center justify-content-center" id="content-logo">
+            <div class="d-md-flex align-items-center justify-content-center d-sm-none d-xs-none col-md-6 col-lg-7 bg-light" id="content-logo">
                 <div>
-                    <img src="<?= theme("assets/image/logo-login.png") ?>" class="mx-auto d-block">
+                    <img src="<?= theme("assets/image/logo-login.png") ?>" class="mx-auto d-block img-fluid">
                 </div>
             </div>
-            <div class="col-md-5 bg-strong pt-3 pb-3" id="content-login">
+            <div class="col-md-6 col-lg-5 bg-strong pt-3 pb-3" id="content-login">
                 <div></div>
                 <div class="main-content">
                     <?= $this->section("content"); ?>

@@ -33,7 +33,7 @@ class UploadController extends Controller
         //RESTRIÇÃO
         if (!$this->user = Auth::user()) {
             (new Message())->warning("Efetue login para acessar o sistema.")->flash();
-            redirect(url("/login"));
+            redirect("/login");
         }
     }
     /**
@@ -111,8 +111,13 @@ class UploadController extends Controller
             return;
         }
 
-        $sql_query = "id >= :id";
-        $sql_params = "id=1";
+        if ($this->user->level >= 2) {
+            $sql_query = "id >= :id";
+            $sql_params = "id=1";
+        } else {
+            $sql_query = "user_id >= :user";
+            $sql_params = "user={$this->user->id}";
+        }
         if ($status != "status") {
             $sql_query .= " AND status_id=:status";
             $sql_params .= "&status={$status}";
@@ -154,16 +159,14 @@ class UploadController extends Controller
      */
     public function update(array $data): void
     {
-        if ($this->user->level < 1) {
-            (new Message())->warning("Você não tem permissão para acessar essa área.")->flash();
-            redirect(url("/"));
-        }
+        user_level(2);
+
         $id = filter_var($data["id"], FILTER_VALIDATE_INT);
         $status = filter_var($data["status"], FILTER_SANITIZE_SPECIAL_CHARS) && $data["status"] == "aceita" ? 3 : 4;
         $upload = (new Upload())->findById($id);
         if (!$upload) {
             $this->message->warning("Oops {$this->user->first_name}! Você tentou acessar um registro inexistente no banco de dados.")->flash();
-            redirect(url("publicity"));
+            redirect("/upload");
             return;
         }
         $upload->status_id = $status;
@@ -173,7 +176,7 @@ class UploadController extends Controller
             return;
         }
         $this->message->success("Alteração realizada com sucesso!")->flash();
-        redirect(url("/"));
+        redirect("/upload");
     }
 
     public function remove(array $data): void
@@ -187,7 +190,7 @@ class UploadController extends Controller
             $uploadSupport->remove(CONF_UPLOAD_DIR . "/{$upload->url}");
             $upload->destroy();
             $this->message->success("Registro removido com sucesso!")->flash();
-            redirect(url("/upload"));
+            redirect("/upload");
         }
         redirect(url_back());
     }

@@ -48,7 +48,7 @@
                             <div class="col-md-12 mb-3">
                                 <label for='icor'>Cores: </label><br />
                                 <select class="custom-select select2-js" name="class_color" id="icor">
-                                    <?php foreach (backgroundColorOptions() as $bgColor) :  ?>
+                                    <?php foreach (bgcolor_options() as $bgColor) :  ?>
                                         <?php if ($status->class_color == $bgColor["value"]) : ?>
                                             <option value="<?= ($bgColor["value"] ?? "") ?>" selected="true"><?= ($bgColor["label"] ?? "") ?></option>
                                         <?php else : ?>
