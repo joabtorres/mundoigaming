@@ -11,7 +11,6 @@ use PHPMailer\PHPMailer\Exception;
  *
  * @package Source\Support
  * @version 1.0
- * @author  Joab T. Alencar <contato@joabtorres.com.br>
  */
 class Email
 {

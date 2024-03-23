@@ -9,7 +9,6 @@ use Source\Core\Model;
  * Class Sector
  *
  * @package Source\Model
- * @author  Joab T. Alencar <contato@joabtorres.com.br>
  * @version 1.0
  */
 class Sector extends Model

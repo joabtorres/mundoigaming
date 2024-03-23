@@ -8,7 +8,6 @@ use CoffeeCode\Paginator\Paginator;
  * Class Pager | responsável por manipular o componente Paginator
  *
  * @package Source\Support
- * @author Joab T. Alencar <contato@joabtorres.com.br>
  * @version 1.0
  */
 class Pager extends Paginator

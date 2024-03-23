@@ -14,7 +14,6 @@ use Source\Support\Message;
  * Class HomeController Controller
  *
  * @package Source\App
- * @author  Joab T. Alencar <contato@joabtorres.com.br>
  * @version 1.0
  */
 class HomeController extends Controller

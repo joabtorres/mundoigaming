@@ -8,7 +8,6 @@ use CoffeeCode\Cropper\Cropper;
  * Class Thumb | responsável para manipular o componente Cropper e gerar imagens em cache
  *
  * @package Source\Support
- * @author Joab T. Alencar <contato@joabtorres.com.br>
  * @version 1.0
  */
 class Thumb

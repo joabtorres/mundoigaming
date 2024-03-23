@@ -40,8 +40,23 @@
                         <li>
                             <a href="<?= url() ?>"><i class="fa fa-tachometer-alt "></i> Página Inicial</a>
                         </li>
+                        <?php if (user()->level >= 2) : ?>
+                            <li>
+                                <a href="<?= url('list_id') ?>"><i class="fa-solid fa-list-ol"></i> Lista de ID's</a>
+                            </li>
+                        <?php endif; ?>
                         <li>
-                            <a href="<?= url('upload') ?>"><i class="fas fa-tasks"></i> Uploads</a>
+                            <a href="#sidebarUploads" data-toggle="collapse" aria-expanded="false"><i class="fas fa-angle-double-right"></i> Uploads</a>
+                            <ul class="collapse list-unstyled" id="sidebarUploads">
+                                <li>
+                                    <a href="<?= url("upload") ?>"><i class="fas fa-tasks"></i> Uploads</a>
+                                </li>
+                                <?php if (user()->level >= 2) : ?>
+                                    <li>
+                                        <a href="<?= url("/upload/users/") ?>"><i class="fa-solid fa-users"></i> Usuarios</a>
+                                    </li>
+                                <?php endif; ?>
+                            </ul>
                         </li>
                         <li>
                             <a href="#sidebarUser" data-toggle="collapse" aria-expanded="false"><i class="fas fa-angle-double-right"></i> Usuários</a>

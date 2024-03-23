@@ -14,7 +14,6 @@ use Source\Support\Pager;
  * Class UserController Controller
  *
  * @package Source\App
- * @author  Joab T. Alencar <contato@joabtorres.com.br>
  * @version 1.0
  */
 

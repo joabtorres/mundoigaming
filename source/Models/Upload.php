@@ -9,7 +9,6 @@ use Source\Models\User;
  * class Upload
  *
  * @package Source\Model\Publicity
- * @author  Joab T. Alencar <contato@joabtorres.com.br>
  * @version 1.0
  */
 class Upload extends Model

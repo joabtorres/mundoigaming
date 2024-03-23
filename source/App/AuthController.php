@@ -11,8 +11,7 @@ use Source\Support\Message;
 /**
  * Class AuthController Controller
  *
- * @package Source\App
- * @author  Joab T. Alencar <contato@joabtorres.com.br>
+ * @package Source\Ap
  * @version 1.0
  */
 class AuthController extends Controller

@@ -7,6 +7,7 @@ use Source\Core\Controller;
 use Source\Models\Auth;
 use Source\Models\Status;
 use Source\Models\Upload;
+use Source\Models\User;
 use Source\Support\Message;
 use Source\Support\Pager;
 use Source\Support\Upload as SupportUpload;
@@ -15,7 +16,6 @@ use Source\Support\Upload as SupportUpload;
  * Class UploadController Controller
  *
  * @package Source\App
- * @author  Joab T. Alencar <contato@joabtorres.com.br>
  * @version 1.0
  */
 class UploadController extends Controller
@@ -76,7 +76,7 @@ class UploadController extends Controller
                 return;
             }
             $this->message->success("Cadastro realizado com sucessso!")->flash();
-            $json["redirect"] = url("/upload");
+            $json["reload"] = true;
             echo json_encode($json);
             return;
         }
@@ -123,7 +123,7 @@ class UploadController extends Controller
             $sql_params .= "&status={$status}";
         }
         if ($type != "type" && $search != "search") {
-            $sql_query .= "AND description LIKE '%{$search}%'";
+            $sql_query .= " AND description LIKE '%{$search}%'";
         }
         if ($date_start != "start" && $date_final != "final") {
             $sql_query .= " AND created_at BETWEEN :date_start AND :date_final";
@@ -152,6 +152,73 @@ class UploadController extends Controller
         ]);
     }
     /**
+     * search_from_users function
+     *
+     * @param array|null $data
+     * @return void
+     */
+    public function search_from_users(?array $data): void
+    {
+        $data = filter_var_array($data, FILTER_SANITIZE_SPECIAL_CHARS);
+        $status = !empty($data["status"]) ? $data["status"] : "status";
+        $type = !empty($data["type"]) ? $data["type"] : "type";
+        $search = !empty($data["search"]) && !empty($type) ? $data["search"] : "search";
+        $date_start = !empty($data["date_start"]) ? $data["date_start"] : "start";
+        $date_final = !empty($data["date_final"]) ? $data["date_final"] : "end";
+        $order = !empty($data["order"]) ? ($data["order"] == "DESC" ? "DESC" : "ASC") : "ASC";
+        $page = !empty($data["page"]) ? $data["page"] : 1;
+        if (!empty($data["csrf"])) {
+            if ($date_start != "start") {
+                list($day, $month, $year) = explode("/", $date_start);
+                $date_start = "{$year}-{$month}-{$day}";
+            }
+            if ($date_final != "end") {
+                list($day, $month, $year) = explode("/", $date_final);
+                $date_final = "{$year}-{$month}-{$day}";
+            }
+            $json["redirect"] = url("upload/users/{$status}/{$type}/{$search}/{$date_start}/{$date_final}/{$order}/1");
+            echo json_encode($json);
+            return;
+        }
+
+        if ($this->user->level >= 2) {
+            $sql_query = "id >= :id";
+            $sql_params = "id=1";
+        } else {
+            $sql_query = "user_id >= :user";
+            $sql_params = "user={$this->user->id}";
+        }
+        if ($type != "type" && $search != "search") {
+            $sql_query .= " AND first_name LIKE '%{$search}%'";
+        }
+        if ($date_start != "start" && $date_final != "final") {
+            $sql_query .= " AND created_at BETWEEN :date_start AND :date_final";
+            $sql_params .= "&date_start={$date_start}&date_final={$date_final} 23:59:58";
+        }
+
+        $users = (new User())->find($sql_query, $sql_params);
+        $pager = new Pager(url("/upload/users/{$status}/{$type}/{$search}/{$date_start}/{$date_final}/{$order}/"));
+        $pager->pager($users->count(), 30, $page);
+
+        $head = $this->seo->render(
+            "Uploads Realizados - " . CONF_SITE_TITLE,
+            CONF_SITE_DESC,
+            url(),
+            theme("/assets/images/share.jpg")
+        );
+        $user = $users->limit($pager->limit())
+            ->offset($pager->offset())
+            ->order("id {$order}")
+            ->fetch(true);
+        echo $this->view->render("upload/search_users", [
+            "head" => $head,
+            "users" => $user,
+            "userTotal" => $users->count(),
+            "paginator" => $pager->render(),
+            "status" => (new Status())->find()->fetch(true)
+        ]);
+    }
+    /**
      * update function
      *
      * @param array $data
@@ -162,7 +229,20 @@ class UploadController extends Controller
         user_level(2);
 
         $id = filter_var($data["id"], FILTER_VALIDATE_INT);
-        $status = filter_var($data["status"], FILTER_SANITIZE_SPECIAL_CHARS) && $data["status"] == "aceita" ? 3 : 4;
+        switch (filter_var($data["status"], FILTER_SANITIZE_SPECIAL_CHARS)) {
+            case "accepted":
+                $status = 3;
+                break;
+            case "recuse":
+                $status = 4;
+                break;
+            case "paid":
+                $status = 8;
+                break;
+            default:
+                $status = 1;
+                break;
+        }
         $upload = (new Upload())->findById($id);
         if (!$upload) {
             $this->message->warning("Oops {$this->user->first_name}! Você tentou acessar um registro inexistente no banco de dados.")->flash();
@@ -176,7 +256,7 @@ class UploadController extends Controller
             return;
         }
         $this->message->success("Alteração realizada com sucesso!")->flash();
-        redirect("/upload");
+        redirect(url_back());
     }
 
     public function remove(array $data): void
@@ -190,7 +270,7 @@ class UploadController extends Controller
             $uploadSupport->remove(CONF_UPLOAD_DIR . "/{$upload->url}");
             $upload->destroy();
             $this->message->success("Registro removido com sucesso!")->flash();
-            redirect("/upload");
+            redirect(url_back());
         }
         redirect(url_back());
     }

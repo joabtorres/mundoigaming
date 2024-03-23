@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 21/03/2024 às 04:43
--- Versão do servidor: 10.4.28-MariaDB
--- Versão do PHP: 8.2.4
+-- Tempo de geração: 23/03/2024 às 16:09
+-- Versão do servidor: 10.4.32-MariaDB
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -44,6 +44,27 @@ CREATE TABLE `companies` (
 
 INSERT INTO `companies` (`id`, `full_name`, `cnpj`, `address`, `phone`, `email`, `created_at`, `updated_at`) VALUES
 (1, 'NOME DA EMPRESA', 'CNPJ', 'ENDEREÇO', 'TELEFONE', '', '2024-03-13 18:03:30', '2024-03-20 20:35:01');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `list_id`
+--
+
+CREATE TABLE `list_id` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `identify` int(11) DEFAULT NULL,
+  `name` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `list_id`
+--
+
+INSERT INTO `list_id` (`id`, `identify`, `name`, `created_at`, `updated_at`) VALUES
+(1, 21231, 123213, '2024-03-23 14:54:41', '2024-03-23 14:55:44');
 
 -- --------------------------------------------------------
 
@@ -91,7 +112,7 @@ INSERT INTO `status` (`id`, `name`, `class_color`, `company_id`, `created_at`, `
 (1, 'Aguardando visualização', 'bg-primary', 1, '2024-03-13 18:09:01', '2024-03-21 03:00:25'),
 (3, 'Aceito', 'bg-success', 1, '2024-03-13 18:09:19', '2024-03-21 02:51:02'),
 (4, 'Recusado', 'bg-danger', 1, '2024-03-13 18:09:30', '2024-03-21 00:46:26'),
-(8, 'Pagamento realizado', 'bg-warning', 1, '2024-03-21 02:52:01', '2024-03-21 02:59:45');
+(8, 'Pagamento realizado', 'bg-warning', 1, '2024-03-21 02:52:01', '2024-03-23 13:28:48');
 
 -- --------------------------------------------------------
 
@@ -108,6 +129,13 @@ CREATE TABLE `uploads` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Despejando dados para a tabela `uploads`
+--
+
+INSERT INTO `uploads` (`id`, `status_id`, `user_id`, `description`, `url`, `created_at`, `updated_at`) VALUES
+(9, 3, 1, '21321312', 'images/2024/03/2024-03-230b800c45d1d55beb6c57e4ba201718a4.jpg', '2024-03-23 14:05:20', NULL);
 
 -- --------------------------------------------------------
 
@@ -145,6 +173,12 @@ INSERT INTO `users` (`id`, `sector_id`, `first_name`, `last_name`, `email`, `pas
 -- Índices de tabela `companies`
 --
 ALTER TABLE `companies`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices de tabela `list_id`
+--
+ALTER TABLE `list_id`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -188,6 +222,12 @@ ALTER TABLE `companies`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT de tabela `list_id`
+--
+ALTER TABLE `list_id`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de tabela `sectors`
 --
 ALTER TABLE `sectors`
@@ -203,7 +243,7 @@ ALTER TABLE `status`
 -- AUTO_INCREMENT de tabela `uploads`
 --
 ALTER TABLE `uploads`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de tabela `users`

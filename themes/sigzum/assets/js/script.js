@@ -110,6 +110,13 @@ $(function () {
                window.location.href = response.redirect;
             }
 
+            //reload
+            if (response.reload) {
+               window.location.reload();
+            } else {
+               load.fadeOut(200);
+            }
+
             //message
             if (response.message) {
                if (flash.length) {

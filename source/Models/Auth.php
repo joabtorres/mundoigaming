@@ -11,7 +11,6 @@ use Source\Support\Email;
  * Class Auth
  *
  * @package Source\Model
- * @author  Joab T. Alencar <contato@joabtorres.com.br>
  * @version 1.0
  */
 class Auth extends Model

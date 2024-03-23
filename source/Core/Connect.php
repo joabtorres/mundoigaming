@@ -9,7 +9,6 @@ use PDOException;
  * Class Connect responsável para realizar a conexão com o banco de dados
  *
  * @package Source\Core
- * @author Joab T. Alencar <contato@joabtorres.com.br>
  * @version 1.0
  */
 class Connect

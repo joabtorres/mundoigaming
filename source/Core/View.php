@@ -8,7 +8,6 @@ use League\Plates\Engine;
  * Class View
  *
  * @package Source\Core
- * @author Joab T. Alencar <contato@joabtorres.com.br>
  * @version 1.0
  */
 class View

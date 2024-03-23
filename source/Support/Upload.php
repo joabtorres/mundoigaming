@@ -10,7 +10,6 @@ use CoffeeCode\Uploader\Media;
  * Class Upload | responsável para fazer upload de imagens, arquivos e mídias
  *
  * @package Source\Support
- * @author Joab T. Alencar <contato@joabtorres.com.br>
  * @version 1.0
  */
 class Upload

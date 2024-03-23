@@ -36,8 +36,9 @@
                                 </div>
                                 <?php if (user()->level > 1) : ?>
                                     <div class="d-flex align-content-center justify-content-center">
-                                        <a href="<?= url("/upload/update/{$upload->id}/aceita") ?>" class="mt-2 btn btn-success ml-1" title="Aceitar"> <i class="fa-solid fa-check mr-1"></i> Aceitar</a>
-                                        <a href="<?= url("/upload/update/{$upload->id}/cancelar") ?>" class="mt-2 btn bg-danger ml-3" title="Recusar"><i class="fa-solid fa-xmark mr-1"></i> Recusar</a>
+                                        <a href="<?= url("/upload/update/{$upload->id}/accepted") ?>" class="mt-2 btn btn-success ml-1" title="Aceitar"> <i class="fa-solid fa-check mr-1"></i> Aceitar</a>
+                                        <a href="<?= url("/upload/update/{$upload->id}/recuse") ?>" class="mt-2 btn bg-danger ml-3" title="Recusar"><i class="fa-solid fa-xmark mr-1"></i> Recusar</a>
+                                        <a href="<?= url("/upload/update/{$upload->id}/paid") ?>" class="mt-2 btn bg-warning ml-3" title="Pagamento realizado"><i class="fa-solid fa-dollar-sign mr-1"></i> Pagamento Realizado</a>
                                     </div>
                                 <?php endif; ?>
                             </td>

@@ -8,7 +8,6 @@ use Source\Core\Session;
  * Class Message
  *
  * @package Source\Support
- * @author Joab T. Alencar <contato@joabtorres.com.br>
  * @version 1.0
  */
 class Message

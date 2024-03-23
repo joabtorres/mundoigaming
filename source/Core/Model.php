@@ -13,7 +13,6 @@ use Source\Support\Message;
  * Class Model Layer Supertype Pattern
  *
  * @package Source\Core
- * @author  Joab T. Alencar <contato@joabtorres.com.br>
  * @version 1.0
  */
 abstract class Model

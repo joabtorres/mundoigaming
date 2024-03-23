@@ -8,7 +8,6 @@ use Source\Core\Model;
  * Class User
  *
  * @package Source\Model
- * @author  Joab T. Alencar <contato@joabtorres.com.br>
  * @version 1.0
  */
 class User extends Model
@@ -55,6 +54,25 @@ class User extends Model
         $this->status = $status;
         $this->level = $level;
         return $this;
+    }
+
+    public function upload()
+    {
+        return (new Upload())->find("user_id = :user", "user={$this->id}")->fetch(true);
+    }
+
+    public function upload_by_status()
+    {
+        return (new Upload())->find(
+            "user_id = :user",
+            "user={$this->id}",
+            "
+            (SELECT COUNT(status_id) FROM uploads WHERE status_id=1 AND user_id=:user) AS waiting,
+            (SELECT COUNT(status_id) FROM uploads WHERE status_id=3 AND user_id=:user) AS accepted,
+            (SELECT COUNT(status_id) FROM uploads WHERE status_id=4 AND user_id=:user) AS recuse,
+            (SELECT COUNT(status_id) FROM uploads WHERE status_id=8 AND user_id=:user) AS paid
+            ",
+        )->fetch();
     }
 
     /**

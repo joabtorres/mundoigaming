@@ -89,9 +89,24 @@ $route->group("/upload");
 $route->get("", "UploadController@search");
 $route->post("", "UploadController@search");
 $route->get("/{status}/{type}/{search}/{date_start}/{date_final}/{order}/{page}", "UploadController@search");
+$route->get("/users", "UploadController@search_from_users");
+$route->post("/users", "UploadController@search_from_users");
+$route->get("/users/{status}/{type}/{search}/{date_start}/{date_final}/{order}/{page}", "UploadController@search_from_users");
 $route->post("/register", "UploadController@register");
 $route->get("/update/{id}/{status}", "UploadController@update");
 $route->get("/remove/{id}", "UploadController@remove");
+
+/**
+ *  LIST-ID ROUTES
+ */
+$route->group("/list_id");
+$route->get("", "ListIdController@search");
+$route->post("", "ListIdController@search");
+$route->get("/{type}/{search}/{date_start}/{date_final}/{order}/{page}", "ListIdController@search");
+$route->post("/register", "ListIdController@register");
+$route->get("/update/{id}", "ListIdController@update");
+$route->post("/update/{id}", "ListIdController@update");
+$route->get("/remove/{id}", "ListIdController@remove");
 
 /**
  * ERROR ROUTES [400, 404,405, 501]

@@ -13,7 +13,6 @@ use Source\Support\Pager;
  * Class CompanyController Controller
  *
  * @package Source\App
- * @author  Joab T. Alencar <contato@joabtorres.com.br>
  * @version 1.0
  */
 class CompanyController extends Controller
