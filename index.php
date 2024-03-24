@@ -17,6 +17,7 @@ $route = new Router(url(), "@");
  */
 $route->namespace("Source\App");
 $route->get("/", "HomeController@home");
+$route->get("/{page}", "HomeController@home");
 
 /**
  * Auth ROUTES

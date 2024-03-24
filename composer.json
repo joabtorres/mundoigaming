@@ -1,15 +1,7 @@
 {
-  "name": "joabtorres/sigzum",
-  "description": "Sistema de Gestão da Zum",
+  "name": "joabtorres/mundoigaming",
+  "description": "mundo i gaming",
   "minimum-stability": "stable",
-  "authors": [
-    {
-      "name": "Joab Torres Alencar",
-      "email": "joabtorres1508@gmail.com",
-      "homepage": "https://joabtorres.com.br",
-      "role": "Develop"
-    }
-  ],
   "config": {
     "vendor-dir": "vendor"
   },

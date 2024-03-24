@@ -38,4 +38,31 @@ class ListId extends Model
         $this->name = $name;
         return $this;
     }
+    public function save(): bool
+    {
+        if (empty($this->identify)) {
+            $this->message->error("Informe o id.")->render();
+            return false;
+        }
+        if (empty($this->name)) {
+            $this->message->error("Informe o nome.")->render();
+            return false;
+        }
+        $idList = !empty($this->id) ? $this->id : null;
+        //update
+        if ($idList) {
+            if ($this->find("identify=:identify AND id != :id", "identify={$this->identify}&id={$this->id}")->count()) {
+                $this->message->warning("Este ID já está sendo utilizado por outros registro.")->render();
+                return false;
+            }
+        } else {
+            //created
+            if ($this->find("identify=:identify", "identify={$this->identify}")->count()) {
+                $this->message->warning("Este ID já está registrado.")->render();
+                return false;
+            }
+        }
+
+        return parent::save();
+    }
 }

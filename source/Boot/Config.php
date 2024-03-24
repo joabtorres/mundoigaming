@@ -74,7 +74,7 @@ define("CONF_MESSAGE_ERROR_ICON", "<i class='fa-solid fa-xmark'></i>");
  */
 define("CONF_VIEW_PATH", __DIR__ . "/../../shared/views");
 define("CONF_VIEW_EXT", "php");
-define("CONF_VIEW_THEME", "sigzum");
+define("CONF_VIEW_THEME", "mundoigaming");
 
 /**
  * UPLOAD

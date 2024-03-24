@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
-        'name' => 'joabtorres/sigzum',
+        'name' => 'joabtorres/mundoigaming',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'c3ffd80224195c2d35de29b70a0d31ccc70cdeef',
+        'reference' => '7c832cd96a4a51fd07203e1f1a314e3fd9a08c73',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -55,10 +55,10 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-        'joabtorres/sigzum' => array(
+        'joabtorres/mundoigaming' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'c3ffd80224195c2d35de29b70a0d31ccc70cdeef',
+            'reference' => '7c832cd96a4a51fd07203e1f1a314e3fd9a08c73',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

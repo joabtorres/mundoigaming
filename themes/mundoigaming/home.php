@@ -30,10 +30,10 @@
         <div class="col-md-4 mb-3">
             <section class="card border-default">
                 <header class="card-header bg-default">
-                    <h4 class="card-title h6 mt-1 mb-1"><i class="fa-solid fa-swatchbook"></i> Status</h4>
+                    <h4 class="card-title h6 mt-1 mb-1"><i class="fa-solid fa-swatchbook"></i> Lista de ID</h4>
                 </header>
                 <article class="card-body">
-                    <?= count_reg($statusCount) ?>
+                    <?= count_reg($listIdCount) ?>
                 </article>
             </section>
         </div>
@@ -102,6 +102,9 @@
                     <!--table-->
                 </div>
             </section>
+            <div class="mt-3 mb-3">
+                <?= $paginator; ?>
+            </div>
         </div>
     </div>
     <!-- </div> fim row  -->

@@ -1,3 +1,4 @@
 sendgrid.env
 /storage
 storage
+/vendor/

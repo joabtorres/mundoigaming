@@ -99,17 +99,6 @@ class ListIdController extends Controller
     {
         if (!empty($data["csrf"])) {
             $data = filter_var_array($data, FILTER_SANITIZE_SPECIAL_CHARS);
-            if (empty($data["identify"])) {
-                $json["message"] = $this->message->error("Informe o id.")->render();
-                echo json_encode($json);
-                return;
-            }
-            if (empty($data["name"])) {
-                $json["message"] = $this->message->error("Informe o nome.")->render();
-                echo json_encode($json);
-                return;
-            }
-
             $listId = (new ListId())->bootstrap(
                 $data["identify"],
                 $data["name"]
@@ -134,33 +123,22 @@ class ListIdController extends Controller
     {
         if (!empty($data["csrf"])) {
             $data = filter_var_array($data, FILTER_SANITIZE_SPECIAL_CHARS);
-            if (empty($data["identify"])) {
-                $json["message"] = $this->message->error("Informe o id.")->render();
-                echo json_encode($json);
-                return;
-            }
-            if (empty($data["name"])) {
-                $json["message"] = $this->message->error("Informe o nome.")->render();
-                echo json_encode($json);
-                return;
-            }
-            $listId = (new ListId())->findById($data["id"]);
-            $listId->name = $data["identify"];
-            $listId->company_id = $data["name"];
 
+            $listId = (new ListId())->findById($data["id"]);
+            $listId->identify = $data["identify"];
+            $listId->name = $data["name"];
             if (!$listId->save()) {
                 $json["message"] = $listId->message()->render();
                 echo json_encode($json);
                 return;
             }
             $this->message->success("Alteração realizada com sucesso!")->flash();
-            $json["redirect"] = url("status/update/{$listId->id}");
+            $json["redirect"] = url("list_id/update/{$listId->id}");
             echo json_encode($json);
             return;
         }
 
         $listId = (new ListId())->findById(filter_var($data["id"], FILTER_VALIDATE_INT));
-        var_dump($listId);
         if (!$listId) {
             $this->message->warning("Oops {$this->user->first_name}! Você tentou acessar um registro inexistente no banco de dados.")->flash();
             redirect("status");
